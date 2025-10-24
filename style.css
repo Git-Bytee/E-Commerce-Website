@@ -1,0 +1,55 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+.logo{
+    width: 5%;
+    height: 5%;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.card-img-top{
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+}
+.card-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.card-body .mt-auto {
+  margin-top: auto;
+  display: flex;
+  gap: 0.5rem;
+}
+.admin_image{
+    width: 100px;
+    object-fit: contain;
+}
+.footer{
+    position:absolute;
+    bottom:0;
+}
+.button {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  padding-left: 1rem;
+}
+.button.shift-right {
+  justify-content: flex-end;
+  padding-right: 2rem;
+}
+.button a,
+.button a:link,
+.button a:visited {
+  text-decoration: none;
+  color: inherit;
+}
