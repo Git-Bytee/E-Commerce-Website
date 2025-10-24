@@ -1,4 +1,4 @@
-# ClickCart E-Commerce Website
+# E-Commerce Website
 
 A complete e-commerce website with database integration, featuring product management, shopping cart, user authentication, and more.
 
