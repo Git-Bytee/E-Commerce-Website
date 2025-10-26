@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Insert Product - EasyCart Admin</title>
+    <!-- bootstrap CSS link -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <!-- css file -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-success p-2">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="../index.html">
+        <img src="../images/logo.png" alt="EasyCart Logo" class="logo" />
+      </a>
+      <span class="navbar-text text-light ms-auto me-3">Admin • Insert Product</span>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h4 class="mb-3">Insert Product</h4>
+        <form id="productForm" class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Product Name</label>
+            <input type="text" class="form-control" id="pname" required />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Price (₹)</label>
+            <input type="number" step="0.01" class="form-control" id="price" required />
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Discount Price (₹)</label>
+            <input type="number" step="0.01" class="form-control" id="dprice" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Category</label>
+            <input type="text" class="form-control" id="category" required />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Brand</label>
+            <input type="text" class="form-control" id="brand" required />
+          </div>
+          <div class="col-12">
+            <label class="form-label">Short Description</label>
+            <input type="text" class="form-control" id="sdesc" required />
+          </div>
+          <div class="col-12">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" id="desc" rows="4" required></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Stock Quantity</label>
+            <input type="number" class="form-control" id="stock" required />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">SKU(Stock Keeping Unit)</label>
+            <input type="text" class="form-control" id="sku" required />
+          </div>
+          <div class="col-12">
+            <label class="form-label">Image URL</label>
+            <input type="url" class="form-control" id="imgurl" />
+          </div>
+          <div class="col-12 d-flex gap-2">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a class="btn btn-secondary" href="index.html">Back to Dashboard</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!-- bootstrap js link -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.getElementById('productForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Product saved (demo). In real app, submit to backend API.');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
