@@ -1,0 +1,7 @@
+[
+  {"brand_id":1, "brand_name":"Fresh Farm", "description":"Organic farm-fresh produce", "logo_url":"", "website_url":"", "is_active":true, "created_at":"2024-01-01T00:00:00Z"},
+  {"brand_id":2, "brand_name":"Green Valley", "description":"Premium organic vegetables", "logo_url":"", "website_url":"", "is_active":true, "created_at":"2024-01-01T00:00:00Z"},
+  {"brand_id":3, "brand_name":"Dairy Fresh", "description":"Fresh dairy products", "logo_url":"", "website_url":"", "is_active":true, "created_at":"2024-01-01T00:00:00Z"}
+]
+
+
