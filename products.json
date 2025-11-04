@@ -1,0 +1,7 @@
+[
+  {"product_id":1,"product_name":"Fresh Apples","description":"Crisp and juicy red apples, perfect for snacking or cooking. Rich in fiber and vitamins.","short_description":"Crisp and juicy red apples","category_id":1,"brand_id":1,"sku":"FRU-APP-001","price":120.00,"discount_price":null,"stock_quantity":50,"image_url":"./images/apple.png","is_active":true,"is_featured":true,"category_name":"Fruits","brand_name":"Fresh Farm"},
+  {"product_id":2,"product_name":"Organic Carrots","description":"Fresh organic carrots, rich in vitamins and perfect for healthy cooking.","short_description":"Fresh organic carrots, rich in vitamins","category_id":2,"brand_id":2,"sku":"VEG-CAR-001","price":80.00,"discount_price":null,"stock_quantity":30,"image_url":"./images/carrot.png","is_active":true,"is_featured":true,"category_name":"Vegetables","brand_name":"Green Valley"},
+  {"product_id":3,"product_name":"Cow Milk","description":"Fresh pasteurized cow milk, 1 liter. Perfect for daily consumption.","short_description":"Fresh pasteurized cow milk, 1 liter","category_id":3,"brand_id":3,"sku":"DAI-MIL-001","price":60.00,"discount_price":null,"stock_quantity":100,"image_url":"./images/cowmilk.png","is_active":true,"is_featured":false,"category_name":"Dairy","brand_name":"Dairy Fresh"}
+]
+
+
