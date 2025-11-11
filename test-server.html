@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Connection Test - EasyCart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .status-box {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .status-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .status-error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .status-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0">🔍 Server Connection Test</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">This page tests if your backend server is running on <code>http://localhost:3000</code></p>
+                        
+                        <div id="testResults"></div>
+                        
+                        <div class="mt-4">
+                            <button class="btn btn-primary" onclick="runTests()">
+                                <span id="testBtnText">Run Tests</span>
+                                <span id="testSpinner" class="spinner-border spinner-border-sm d-none ms-2"></span>
+                            </button>
+                            <button class="btn btn-secondary ms-2" onclick="location.reload()">Refresh</button>
+                        </div>
+                        
+                        <hr class="my-4">
+                        
+                        <h5>📋 Instructions</h5>
+                        <ol>
+                            <li><strong>Start the server:</strong>
+                                <ul>
+                                    <li>Open PowerShell</li>
+                                    <li>Navigate to: <code>E-comm/server</code></li>
+                                    <li>Run: <code>.\start.ps1</code> or <code>start.bat</code></li>
+                                </ul>
+                            </li>
+                            <li><strong>Keep the server window open</strong> (don't close it!)</li>
+                            <li><strong>Click "Run Tests" above</strong> to verify connection</li>
+                            <li>If tests pass, go back to <code>index.html</code> and try registration</li>
+                        </ol>
+                        
+                        <div class="alert alert-info mt-4">
+                            <strong>💡 Tip:</strong> The server must stay running in a PowerShell/Command Prompt window while you use the website!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000';
+        
+        async function runTests() {
+            const resultsDiv = document.getElementById('testResults');
+            const testBtn = document.querySelector('button.btn-primary');
+            const testBtnText = document.getElementById('testBtnText');
+            const testSpinner = document.getElementById('testSpinner');
+            
+            testBtn.disabled = true;
+            testBtnText.textContent = 'Testing...';
+            testSpinner.classList.remove('d-none');
+            resultsDiv.innerHTML = '<div class="status-box status-warning">⏳ Testing server connection...</div>';
+            
+            const results = [];
+            
+            // Test 1: Simple test endpoint
+            try {
+                const controller1 = new AbortController();
+                const timeout1 = setTimeout(() => controller1.abort(), 5000);
+                const res = await fetch(`${API_BASE}/api/test`, { 
+                    method: 'GET',
+                    signal: controller1.signal
+                });
+                clearTimeout(timeout1);
+                if (res.ok) {
+                    const data = await res.json();
+                    results.push({ name: 'Test Endpoint', status: 'success', message: data.message || 'Server responded' });
+                } else {
+                    results.push({ name: 'Test Endpoint', status: 'error', message: `HTTP ${res.status}` });
+                }
+            } catch (e) {
+                results.push({ name: 'Test Endpoint', status: 'error', message: e.message || 'Connection failed' });
+            }
+            
+            // Test 2: Health endpoint
+            try {
+                const controller2 = new AbortController();
+                const timeout2 = setTimeout(() => controller2.abort(), 5000);
+                const res = await fetch(`${API_BASE}/api/health`, { 
+                    method: 'GET',
+                    signal: controller2.signal
+                });
+                clearTimeout(timeout2);
+                if (res.ok) {
+                    const data = await res.json();
+                    const dbStatus = data.db === 'up' ? '✓ Connected' : '✗ Not connected';
+                    results.push({ name: 'Health Check', status: 'success', message: `Server: ${data.server || 'running'}, DB: ${dbStatus}` });
+                } else {
+                    results.push({ name: 'Health Check', status: 'error', message: `HTTP ${res.status}` });
+                }
+            } catch (e) {
+                results.push({ name: 'Health Check', status: 'error', message: e.message || 'Connection failed' });
+            }
+            
+            // Test 3: Database health
+            try {
+                const controller3 = new AbortController();
+                const timeout3 = setTimeout(() => controller3.abort(), 5000);
+                const res = await fetch(`${API_BASE}/api/health/db`, { 
+                    method: 'GET',
+                    signal: controller3.signal
+                });
+                clearTimeout(timeout3);
+                if (res.ok) {
+                    const data = await res.json();
+                    results.push({ name: 'Database Check', status: 'success', message: data.message || 'Database connected' });
+                } else {
+                    const data = await res.json().catch(() => ({}));
+                    results.push({ name: 'Database Check', status: data.ok ? 'warning' : 'error', message: data.message || `HTTP ${res.status}` });
+                }
+            } catch (e) {
+                results.push({ name: 'Database Check', status: 'error', message: e.message || 'Connection failed' });
+            }
+            
+            // Display results
+            let html = '';
+            let allSuccess = true;
+            let hasError = false;
+            
+            results.forEach(result => {
+                const statusClass = result.status === 'success' ? 'status-success' : 
+                                   result.status === 'warning' ? 'status-warning' : 'status-error';
+                const icon = result.status === 'success' ? '✓' : result.status === 'warning' ? '⚠' : '✗';
+                html += `<div class="status-box ${statusClass}">${icon} <strong>${result.name}:</strong> ${result.message}</div>`;
+                if (result.status === 'error') {
+                    allSuccess = false;
+                    hasError = true;
+                } else if (result.status === 'warning') {
+                    allSuccess = false;
+                }
+            });
+            
+            if (hasError) {
+                html += '<div class="status-box status-error mt-3"><strong>❌ Server is not running!</strong><br>Please start the server using the instructions above.</div>';
+            } else if (allSuccess) {
+                html += '<div class="status-box status-success mt-3"><strong>✅ All tests passed!</strong><br>Your server is running correctly. You can now use the registration form.</div>';
+            } else {
+                html += '<div class="status-box status-warning mt-3"><strong>⚠️ Server is running but database is not connected.</strong><br>Registration will not work until database is connected.</div>';
+            }
+            
+            resultsDiv.innerHTML = html;
+            
+            testBtn.disabled = false;
+            testBtnText.textContent = 'Run Tests Again';
+            testSpinner.classList.add('d-none');
+        }
+        
+        // Auto-run tests on page load
+        window.addEventListener('load', () => {
+            setTimeout(runTests, 500);
+        });
+    </script>
+</body>
+</html>
+
